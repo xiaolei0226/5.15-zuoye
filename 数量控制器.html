@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>数量控制器</title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+			#box{
+				width: 400px;
+				height: 200px;
+				border: 1px solid #00c77a;
+				padding: 30px 100px;
+				margin: 100px auto;
+			}
+			.show{
+				font-size: 50px;
+				font-weight: 400;
+				text-align: center;
+				color: #00c77a;
+			}
+			.btn{
+				margin-top: 20px;
+				display: flex;
+				justify-content: space-around;
+			}
+			.btn button{
+				width: 70px;
+				height: 40px;
+				line-height: 40px;
+				border: none;
+				background-color: #3184f5;
+				color: #fff;
+				font-size: 16px;
+				cursor: pointer;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box">
+			<parent></parent>
+		</div>
+		<template id="parentT">
+			<div>
+				<p class="show">{{pmsg}}</p>
+				<child1 :inmsg='pmsg' @change='getVal'></child1>
+			</div>
+		</template>
+		<template id="childT">
+			<div class="btn">
+				<button @click="fn1">增加1</button>
+				<button @click="fn2">减少1</button>
+			</div>
+		</template>
+	</body>
+	<script type="text/javascript">
+		let vm = new Vue({
+			el:'#box',
+			data:{},
+			components:{
+				'parent':{
+					template:'#parentT',
+					data:function(){
+						return {
+							pmsg:0,
+							showincmsg:0
+						}
+					},
+					methods:{
+						getVal(val){
+							//子传父步骤4：拿到数据后处理
+							this.pmsg = val;
+						}
+					},
+					components:{
+						'child1':{
+							template:'#childT',
+							//父传子步骤1：子定义prop进行接收
+							props:['inmsg'],
+							data:function(){
+								return {
+									cmsg:''
+								}
+							},
+							methods:{
+								fn1(){
+									console.log(this.inmsg)
+									let num = this.inmsg;
+									this.cmsg = num+1;
+									//子传父步骤2：通过$emit()抛出自定义事件的监听
+									this.$emit('change',this.cmsg)
+								},
+								fn2(){
+									let num = this.inmsg;
+									this.cmsg = num-1;
+									//子传父步骤2：通过$emit()抛出自定义事件的监听
+									this.$emit('change',this.cmsg)
+								}
+							}
+						}
+					}
+				}
+			}
+		})
+	</script>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="box">
+			<parent>    </parent>
+		</div>
+		<template id="parentT">
+			<div>
+				<h1>我是父组件</h1>
+				<!--父传子步骤3：调用时传递数据给子-->
+				<!--子传父步骤3：接受自定义事件的监听-->
+				<child1 :inmsg='pmsg' @change='getVal'></child1>
+				<!--显示出子传递过来的数据-->
+				<p>
+					接受到子传递过来的数据：{{showincmsg}}
+				</p>
+			</div>
+		</template>
+		<template id="childT">
+			<div>
+				<h2>我是子组件</h2>
+				<div>
+					<!--父传子步骤2：显示出接收到的值-->
+					接收到父传递过来的数据：{{inmsg}}
+				</div>
+				<!--子传父步骤1：主动抛出事件-->
+				<button @click="fn">点击传递数据给父</button>
+			</div>
+		</template>
+	</body>
+	<script type="text/javascript">
+		let vm = new Vue({
+			el:'#box',
+			data:{},
+			components:{
+				'parent':{
+					template:'#parentT',
+					data:function(){
+						return {
+							pmsg:'我是父pmsg',
+							showincmsg:''
+						}
+					},
+					methods:{
+						getVal(val){
+							//子传父步骤4：拿到数据后处理
+							this.showincmsg = val;
+						}
+					},
+					components:{
+						'child1':{
+							template:'#childT',
+							//父传子步骤1：子定义prop进行接收
+							props:['inmsg'],
+							data:function(){
+								return {
+									cmsg:'我是子cmsg'
+								}
+							},
+							methods:{
+								fn(){
+									//子传父步骤2：通过$emit()抛出自定义事件的监听
+									this.$emit('change',this.cmsg)
+								}
+							}
+						}
+					}
+				}
+			}
+		})
+	</script>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>移动端头部底部组件</title>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+			.header{
+				width: 100%;
+				height: 50px;
+				background-color: #90eb90;
+				position: relative;
+			}
+			.header input{
+				width: 85%;
+				height: 60%;
+				border: none;
+				border-radius: 5px;
+				position: absolute;
+				padding-left: 30px;
+				top: 10px;
+				left: 10px;
+			}
+			.header img{
+				width: 20px;
+				height: 20px;
+				position: absolute;
+			}
+			.header .seach{
+				top: 15px;
+				left: 15px;
+			}
+			.header .scan{
+				top: 15px;
+				right: 55px;
+			}
+			.header .chat{
+				top: 12px;
+				right: 12px;
+				width: 25px;
+				height: 25px;
+			}
+			.tab{
+				border-top: 1px solid gray;
+				width: 100%;
+				height: 80px;
+				display: flex;
+				position: fixed;
+				bottom: 0;
+			}
+			.tab .item{
+				flex: 1;
+				text-align: center;
+			}
+			.item img{
+				width: 60%;
+			}
+			.item p{
+				font-size: 14px;
+				color: gray;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box">
+			<vuehead></vuehead>
+			<vuetab></vuetab>
+		</div>
+		<template id="myheader">
+			<div class="header">
+				<input type="text" :placeholder="msg1" />
+				<img class="seach" @click="fn" src="img/ic_search_gray.png"/>
+				<img class="scan" src="img/ic_scan_gray.png"/>
+				<img class="chat" src="img/ic_chat_white.png"/>
+			</div>
+		</template>
+		<template id="mytab">
+			<div class="tab">
+				<items src='img/1.png' title='首页' class="item"></items>
+				<items src='img/2.png' title='搜索' class="item"></items>
+				<items src='img/3.png' title='热点' class="item"></items>
+				<items src='img/4.png' title='购物车' class="item"></items>
+			</div>
+		</template>
+		<template id="childT">
+			<div class="items">
+				<img :src="src"/>
+				<p>{{title}}</p>
+			</div>
+		</template>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		let vm = new Vue({
+			el:'#box',
+			data:{
+				
+			},
+			components:{
+				'vuehead':{
+					template:'#myheader',
+					data:function(){
+						return {msg1:'请输入搜索内容'}
+					},
+					methods:{
+						fn(){
+							this.msg1 = '这是自己定义的'
+						}
+					}
+				},
+				'vuetab':{
+					template:'#mytab',
+					components:{
+						'items':{
+							template:'#childT',
+							props:['src','title']
+						}
+					}
+				}
+			}
+		})
+	</script>
+</html>

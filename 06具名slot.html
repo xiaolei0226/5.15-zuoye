@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="box">
+			<mycomputer>
+				<div slot='USB1'>小米U盘</div>
+				<div slot='Harddrive'>三星 1T</div>
+				<div slot='Memory'>金士顿32G</div>
+			</mycomputer>
+			<mycomputer>
+				<div slot='Memory'>neicun</div>
+				<div slot='USB1'>金士顿32G</div>
+			</mycomputer>
+		</div>
+		<template id="myT">
+			<div>
+				<slot name='USB1'></slot>
+				<slot name='Harddrive'></slot>
+				<slot name='Memory'></slot>
+			</div>
+		</template>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		let vm = new Vue({
+			el:'#box',
+			data:{},
+			components:{
+				'mycomputer':{
+					template:'#myT'
+				}
+			}
+		})
+	</script>
+</html>

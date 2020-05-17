@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="box">
+			<!--3.使用组件-->
+			<demo></demo>
+			<demo></demo>
+		</div>
+		<div id="box2">
+			<demo></demo>
+		</div>
+		<!--2.定义模板-->
+		<template id="mytemp">
+			<div>
+				<img src="loading.gif" height="150px"/>
+				<h3 @click="fn1">这里是标题内容</h3>
+				<p>这里是一个段落内容{{msg}}</p>
+			</div>
+		</template>
+	</body>
+	<script type="text/javascript">
+		Vue.component('demo',{
+			//1.指定模板内容，可以直接是html，也可以是#templaid
+//			template:'<div>我是一个div</div>'
+			template:'#mytemp',
+			data:function(){
+				return {msg:'我是组件内的msg'}
+			},
+			methods:{
+				fn1(){console.log('fn1')}
+			}
+		})
+		let vm = new Vue({
+			el:'#box',
+			data:{
+				msg1:''
+			}
+		})
+		let vm2 = new Vue({
+			el:'#box2'
+		})
+	</script>
+</html>
